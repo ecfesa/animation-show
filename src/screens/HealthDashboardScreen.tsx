@@ -83,7 +83,7 @@ const HealthDashboardScreen: React.FC<HealthDashboardScreenProps> = ({ navigatio
           </View>
           
           {/* Health Charts */}
-          <HealthChart 
+          {/* <HealthChart 
             title="Heart Rate (Weekly)" 
             data={heartRateData} 
             labels={heartRateLabels} 
@@ -99,7 +99,7 @@ const HealthDashboardScreen: React.FC<HealthDashboardScreenProps> = ({ navigatio
             unit="h"
             color="#5AC8FA" 
             minValue={5}
-          />
+          /> */}
           
           {/* Activity Button */}
           <Animated.View 

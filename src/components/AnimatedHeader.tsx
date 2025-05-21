@@ -6,6 +6,8 @@ import Animated, {
   withSpring, 
   FadeIn,
   SlideInDown,
+  SlideInRight,
+  SlideInLeft,
 } from 'react-native-reanimated';
 import { useAnimation } from '../context/AnimationContext';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -47,7 +49,7 @@ const AnimatedHeader: React.FC<AnimatedHeaderProps> = ({
   
   const HeaderContainer = animationsEnabled ? Animated.View : View;
   const headerProps = animationsEnabled ? {
-    entering: SlideInDown.duration(800).springify(),
+    entering: SlideInLeft.duration(500).springify(),
     style: styles.header
   } : {
     style: styles.header
@@ -62,7 +64,7 @@ const AnimatedHeader: React.FC<AnimatedHeaderProps> = ({
             onPress={() => navigation.goBack()} 
             style={styles.backButton}
           >
-            <Ionicons name="arrow-back" size={RFValue(24)} color="#FFFFFF" />
+            <Ionicons name="arrow-back" size={RFValue(22)} color="#FFFFFF" />
           </TouchableOpacity>
         )}
         <Text style={styles.headerTitle}>{title}</Text>
@@ -78,7 +80,7 @@ const AnimatedHeader: React.FC<AnimatedHeaderProps> = ({
               style={styles.toggleButton}
             >
               <Text style={styles.toggleButtonText}>
-                {animationsEnabled ? 'Animations: ON' : 'Animations: OFF'}
+                {animationsEnabled ? 'ON' : 'OFF'}
               </Text>
             </TouchableOpacity>
           </Animated.View>
@@ -106,7 +108,7 @@ const styles = StyleSheet.create({
     marginRight: RFValue(10),
   },
   headerTitle: {
-    fontSize: RFValue(28),
+    fontSize: RFValue(24),
     fontWeight: 'bold',
     color: '#FFFFFF',
   },
