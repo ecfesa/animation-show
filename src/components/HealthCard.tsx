@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Animated, { 
   useSharedValue, 
@@ -38,15 +38,12 @@ const HealthCard: React.FC<HealthCardProps> = ({
 }) => {
   const { animationsEnabled } = useAnimation();
   const scale = useSharedValue(1);
-  const progress = useSharedValue(0);
+  const [targetProgress, setTargetProgress] = useState(0);
   
-  React.useEffect(() => {
-    if (animationsEnabled) {
-      progress.value = withTiming(current / max * 100, { duration: 1500 });
-    } else {
-      progress.value = current / max * 100;
-    }
-  }, [current, max, animationsEnabled]);
+  useEffect(() => {
+    const newTarget = max > 0 ? (current / max) * 100 : 0;
+    setTargetProgress(newTarget);
+  }, [current, max]);
   
   const handlePressIn = () => {
     if (animationsEnabled) {
@@ -96,13 +93,13 @@ const HealthCard: React.FC<HealthCardProps> = ({
               <AnimatedCircularProgress
                 size={RFValue(60)}
                 width={RFValue(5)}
-                fill={animationsEnabled ? progress.value : (current / max * 100)}
+                fill={targetProgress}
                 tintColor={color}
                 backgroundColor="rgba(255, 255, 255, 0.2)"
                 arcSweepAngle={240}
                 rotation={240}
                 lineCap="round"
-                duration={1500}
+                duration={animationsEnabled ? 1500 : 0}
               />
             </View>
           )}
@@ -114,7 +111,7 @@ const HealthCard: React.FC<HealthCardProps> = ({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: 'transparent',
     borderRadius: RFValue(20),
     padding: RFValue(20),
     marginBottom: RFValue(15),
@@ -130,6 +127,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: 'transparent',
   },
   textContainer: {
     flex: 1,

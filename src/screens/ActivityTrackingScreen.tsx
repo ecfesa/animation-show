@@ -42,19 +42,12 @@ interface ActivityItemProps {
 
 const ActivityItem: React.FC<ActivityItemProps> = ({ id, name, duration, calories, progress, color, index }) => {
   const { animationsEnabled } = useAnimation();
-  const progressValue = useSharedValue(0);
+  const [itemTargetProgress, setItemTargetProgress] = useState(0);
   const scale = useSharedValue(1);
   
   useEffect(() => {
-    if (animationsEnabled) {
-      progressValue.value = withDelay(
-        300 * index, 
-        withTiming(progress, { duration: 1500 })
-      );
-    } else {
-      progressValue.value = progress;
-    }
-  }, [progress, animationsEnabled, index]);
+    setItemTargetProgress(progress);
+  }, [progress]);
   
   const handlePressIn = () => {
     if (animationsEnabled) {
@@ -100,12 +93,12 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ id, name, duration, calorie
           <AnimatedCircularProgress
             size={RFValue(50)}
             width={RFValue(4)}
-            fill={animationsEnabled ? progressValue.value : progress}
+            fill={itemTargetProgress}
             tintColor={color}
             backgroundColor="rgba(255, 255, 255, 0.2)"
             rotation={0}
             lineCap="round"
-            duration={1500}
+            duration={animationsEnabled ? 1500 : 0}
           >
             {() => (
               <Text style={styles.progressText}>{progress}%</Text>
@@ -119,15 +112,11 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ id, name, duration, calorie
 
 const ActivityTrackingScreen: React.FC = () => {
   const { animationsEnabled } = useAnimation();
-  const dailyGoalProgress = useSharedValue(0);
+  const [goalTargetProgress, setGoalTargetProgress] = useState(0);
   
   useEffect(() => {
-    if (animationsEnabled) {
-      dailyGoalProgress.value = withTiming(78, { duration: 2000 });
-    } else {
-      dailyGoalProgress.value = 78;
-    }
-  }, [animationsEnabled]);
+    setGoalTargetProgress(78);
+  }, []);
   
   const GoalContainer = animationsEnabled ? Animated.View : View;
   const goalContainerProps = animationsEnabled ? {
@@ -159,12 +148,12 @@ const ActivityTrackingScreen: React.FC = () => {
             <AnimatedCircularProgress
               size={RFValue(120)}
               width={RFValue(12)}
-              fill={animationsEnabled ? dailyGoalProgress.value : 78}
+              fill={goalTargetProgress}
               tintColor="#61dafb"
               backgroundColor="rgba(255, 255, 255, 0.2)"
               rotation={0}
               lineCap="round"
-              duration={1500}
+              duration={animationsEnabled ? 1500 : 0}
             >
               {() => (
                 <View style={styles.goalProgressContent}>
@@ -199,7 +188,7 @@ const ActivityTrackingScreen: React.FC = () => {
             entering={animationsEnabled ? FadeIn.duration(800).delay(800) : undefined}
             style={styles.addButtonContainer}
           >
-            <TouchableOpacity style={styles.addButton}>
+            <TouchableOpacity style={styles.addButton} activeOpacity={animationsEnabled ? 0.8 : 1}>
               <Ionicons name="add" size={RFValue(24)} color="#FFFFFF" />
               <Text style={styles.addButtonText}>Add New Activity</Text>
             </TouchableOpacity>

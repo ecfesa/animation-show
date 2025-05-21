@@ -109,6 +109,7 @@ const HealthDashboardScreen: React.FC<HealthDashboardScreenProps> = ({ navigatio
             <TouchableOpacity 
               style={styles.activityButton} 
               onPress={navigateToActivityTracking}
+              activeOpacity={animationsEnabled ? 0.8 : 1}
             >
               <Ionicons name="fitness-outline" size={RFValue(24)} color="#FFFFFF" />
               <View style={styles.activityButtonTextContainer}>
