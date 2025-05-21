@@ -80,7 +80,6 @@ const HealthCard: React.FC<HealthCardProps> = ({
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
     >
-      {/* @ts-ignore - Type issues with conditional component */}
       <CardComponent {...cardProps}>
         <View style={styles.contentContainer}>
           <View style={styles.textContainer}>
@@ -111,15 +110,10 @@ const HealthCard: React.FC<HealthCardProps> = ({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: 'transparent',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
     borderRadius: RFValue(20),
     padding: RFValue(20),
     marginBottom: RFValue(15),
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 4,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.1)',
   },
@@ -127,7 +121,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: 'transparent',
   },
   textContainer: {
     flex: 1,
